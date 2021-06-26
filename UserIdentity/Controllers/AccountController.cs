@@ -19,6 +19,18 @@ namespace UserIdentity.Controllers
         {
             var userStore = new UserStore<ApplicationUser>(new IdentityDataContext());
             userManager = new UserManager<ApplicationUser>(userStore);
+            userManager.PasswordValidator = new CustomPasswordValidator()//custom validator add
+            {
+                RequireDigit = true,
+                RequiredLength = 7,//minimum char 
+                RequireLowercase = true,
+                RequireUppercase = true,
+                RequireNonLetterOrDigit = true//alfanumerik değer
+            };
+            userManager.UserValidator = new UserValidator<ApplicationUser>(userManager) {
+                RequireUniqueEmail = true,
+                AllowOnlyAlphanumericUserNames = false//alphanumeric char içersin mi
+            };
         }
 
 
@@ -62,7 +74,7 @@ namespace UserIdentity.Controllers
             return View(model);//kullanıcının girdiği bilgilerde hata varsa tekrar sayfaya yönlendirir ve kullanıcının girdiği bilgileri gözükür
         }
         [HttpGet]
-        [AllowAnonymous]//authorize olmayanlarında yani üye olmayanlarında girebildiği yerler
+        [AllowAnonymous]
         public ActionResult Register()
         {
             return View();
