@@ -7,6 +7,15 @@ using System.Web;
 namespace UserIdentity.Models
 {
     //sayfadan action methoduna taşınacak bilgileri getirir
+    
+    public class LoginModel
+    {
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
+
+    }
     public class Register
     {
         [Required]
